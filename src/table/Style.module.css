@@ -1,0 +1,115 @@
+.mainContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+:root{
+    --color:#003049;
+}
+
+.headingContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+table,th,td{
+    border: 0.1rem solid black;
+    border-collapse: collapse;
+}
+
+.tableContainer{
+    width: 90vw;
+    height: 50vh;
+    border: 1px solid black;
+    height: 500px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.tableHeading{
+   font-size: 28px;
+   color: var(--color);
+}
+
+.search{
+    font-size: 18px;
+    font-weight: bolder;
+    color: var(--color);
+}
+
+.inputField{
+    padding: 0.5rem;
+    outline: none;
+    margin-left: 0.7rem;
+}
+
+.addBtn{
+    font-size: 16px;
+    font-weight: 500;
+    background-color: black;
+    color: #fff;
+    border-radius: 0.4rem;
+    border: none;
+    padding: 0.8rem 1rem;
+    cursor: pointer;
+}
+
+.tableHead{
+    position: sticky;
+    top: 0;
+    background-color: lightgray;
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+.tablerow{
+    color: var(--color);
+}
+
+.mapDatas{
+    text-align: center;
+}
+
+.logos{
+    font-size: 1.5rem;
+    border: 1px solid blue;
+}
+
+
+.deleteLogo{
+    margin-right: 2rem;
+   color: red;
+   cursor: pointer;
+}
+
+.editLogo{
+    color: #003049;
+    cursor: pointer;
+}
+
+.downloadContainer{
+    display: flex;
+    gap: 1rem;
+}
+
+
+.downloadBtn{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: black;
+    color: #fff;
+    border-radius: 0.4rem;
+    border: none;
+    padding: 0.8rem 0.8rem;
+    cursor: pointer;
+}
+
+.downloadLogo{
+    font-size: 22px;
+}
