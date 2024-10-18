@@ -3,17 +3,22 @@ import Style from "./Style.module.css";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { MdEditSquare } from "react-icons/md";
 import { RiDownload2Fill } from "react-icons/ri";
-import JsonData from "../assets/MOCK_DATA.json";
+import jsonData from "../assets/MOCK_DATA.json";
+import EditEmployee from "../editemp/EditEmployee";
 
 const Table = () => {
-  const jsonData = JsonData;
   const [storedData, setStoredData] = useState(jsonData);
+  const [isDialogOpen, setISDialogOpen] = useState(false);
 
-  function deleteData(ind) {
-    setStoredData(
-      storedData.filter((value, index) => console.log(index, value))
-    );
+  function deleteData(id) {
+    const del = storedData.filter((itm) => itm.id !== id); // illana item.id-- kuduthalum work aagum for changing the serial no
+    setStoredData(del);
   }
+
+  const editData = (ind, fname, lname, city) => {
+    console.log(ind, fname, lname, city);
+  };
+
   return (
     <main className={Style.mainContainer}>
       <section className={Style.headingContainer}>
@@ -34,27 +39,30 @@ const Table = () => {
         <table cellPadding={"53rem"}>
           <thead className={Style.tableHead}>
             <tr className={Style.tablerow}>
-              <th>Id</th>
+              <th>SNo</th>
               <th>First Name</th>
               <th>Last Name</th>
               <th>City</th>
               <th>Action</th>
             </tr>
           </thead>
-          {jsonData.map((item, ind) => {
+          {storedData.map(({ id, first_name, last_name, city }, index) => {
             return (
-              <tbody key={ind}>
+              <tbody key={index}>
                 <tr className={Style.mapDatas}>
-                  <td>{item.id}</td>
-                  <td>{item.first_name}</td>
-                  <td>{item.last_name}</td>
-                  <td>{item.city}</td>
+                  <td>{index + 1}</td>
+                  <td>{first_name}</td>
+                  <td>{last_name}</td>
+                  <td>{city}</td>
                   <td className={Style.logos}>
                     <RiDeleteBin6Fill
                       className={Style.deleteLogo}
-                      onClick={() => deleteData(ind)}
+                      onClick={() => deleteData(id)}
                     />
-                    <MdEditSquare className={Style.editLogo} />
+                    <MdEditSquare
+                      className={Style.editLogo}
+                      onClick={() => setISDialogOpen(true)}
+                    />
                   </td>
                 </tr>
               </tbody>
@@ -67,6 +75,10 @@ const Table = () => {
           Download as Excel <RiDownload2Fill className={Style.downloadLogo} />
         </button>
       </section>
+      <EditEmployee
+        isDialogOpen={isDialogOpen}
+        setISDialogOpen={setISDialogOpen}
+      />
     </main>
   );
 };
