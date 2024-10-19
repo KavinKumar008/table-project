@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Style.module.css";
 import * as Dialog from "@radix-ui/react-dialog";
 
-const EditEmployee = ({ isDialogOpen, setISDialogOpen }) => {
-  console.log(isDialogOpen);
+const EditEmployee = ({
+  isDialogOpen,
+  setISDialogOpen,
+  editData,
+  storedData,
+}) => {
+  const [empId, setEmpId] = useState("");
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
+  const [city, setCity] = useState("");
+
+  function sendDataToTable() {
+    editData(empId, fname, lname, city);
+    setISDialogOpen(false);
+  }
+
   return (
     <Dialog.Root open={isDialogOpen}>
       <Dialog.Trigger asChild>hi</Dialog.Trigger>
@@ -11,6 +25,7 @@ const EditEmployee = ({ isDialogOpen, setISDialogOpen }) => {
         <Dialog.Content className={styles.Content}>
           <Dialog.Title className={styles.Title}>
             <p className={styles.heading}>Edit Employee Details</p>
+            {/* <span>x</span> */}
           </Dialog.Title>
           <Dialog.Description
             className={styles.Description}
@@ -24,6 +39,8 @@ const EditEmployee = ({ isDialogOpen, setISDialogOpen }) => {
                   id="id"
                   name="id"
                   className={styles.inputFields}
+                  value={empId}
+                  onChange={(e) => setEmpId(e.target.value)}
                 />
               </label>
               <label htmlFor="fname">
@@ -33,6 +50,8 @@ const EditEmployee = ({ isDialogOpen, setISDialogOpen }) => {
                   id="fname"
                   name="fname"
                   className={styles.inputFields}
+                  value={fname}
+                  onChange={(e) => setFname(e.target.value)}
                 />
               </label>
               <label htmlFor="lname">
@@ -42,6 +61,8 @@ const EditEmployee = ({ isDialogOpen, setISDialogOpen }) => {
                   id="lname"
                   name="lname"
                   className={styles.inputFields}
+                  value={lname}
+                  onChange={(e) => setLname(e.target.value)}
                 />
               </label>
               <label htmlFor="city">
@@ -51,18 +72,20 @@ const EditEmployee = ({ isDialogOpen, setISDialogOpen }) => {
                   id="city"
                   name="city"
                   className={styles.inputFields}
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
                 />
               </label>
             </div>
           </section>
           <section className={styles.btnsContainer}>
             <Dialog.Close>
-              <p type="button" className={styles.leftBtn}>
+              <span type="button" className={styles.leftBtn}>
                 Cancel
-              </p>
+              </span>
             </Dialog.Close>
             <button
-              onClick={() => setISDialogOpen(false)}
+              onClick={() => sendDataToTable()}
               type="button"
               className={styles.rightBtn}
             >

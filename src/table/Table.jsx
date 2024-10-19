@@ -15,9 +15,18 @@ const Table = () => {
     setStoredData(del);
   }
 
-  const editData = (ind, fname, lname, city) => {
-    console.log(ind, fname, lname, city);
+  const editData = (id, fname, lname, city) => {
+    setStoredData((prevValue) => {
+      const updatedValue = [...prevValue];
+      updatedValue[id] = [fname, lname, city];
+      return updatedValue;
+    });
   };
+
+  function showingDataEdit(id, storedData) {
+    setISDialogOpen(true);
+    console.log(storedData[0]);
+  }
 
   return (
     <main className={Style.mainContainer}>
@@ -61,7 +70,7 @@ const Table = () => {
                     />
                     <MdEditSquare
                       className={Style.editLogo}
-                      onClick={() => setISDialogOpen(true)}
+                      onClick={() => showingDataEdit(id, storedData)}
                     />
                   </td>
                 </tr>
@@ -78,6 +87,8 @@ const Table = () => {
       <EditEmployee
         isDialogOpen={isDialogOpen}
         setISDialogOpen={setISDialogOpen}
+        editData={editData}
+        storedData={storedData}
       />
     </main>
   );
