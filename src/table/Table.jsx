@@ -5,6 +5,7 @@ import { MdEditSquare } from "react-icons/md";
 import { RiDownload2Fill } from "react-icons/ri";
 import jsonData from "../assets/MOCK_DATA.json";
 import EditEmployee from "../editemp/EditEmployee";
+import CreateEmployee from "../createemp/CreateEmployee";
 
 const Table = () => {
   const [storedData, setStoredData] = useState(jsonData);
@@ -18,16 +19,20 @@ const Table = () => {
   const editData = (id, fname, lname, city) => {
     setStoredData((prevValue) => {
       const updatedValue = [...prevValue];
-      updatedValue[id] = [fname, lname, city];
+      updatedValue[id] = [{ fname, lname, city }];
       return updatedValue;
     });
   };
 
-  function showingDataEdit(id, storedData) {
+  function showingDataEdit() {
     setISDialogOpen(true);
-    console.log(storedData[0]);
   }
 
+  function createEmpData(fname, lname, city) {
+    setStoredData((prev) => [...prev, { fname, lname, city }]);
+  }
+
+  console.log(storedData);
   return (
     <main className={Style.mainContainer}>
       <section className={Style.headingContainer}>
@@ -42,7 +47,9 @@ const Table = () => {
             className={Style.inputField}
           />
         </label>
-        <button className={Style.addBtn}>Add New Employee</button>
+        <button className={Style.addBtn} onClick={() => setISDialogOpen(true)}>
+          Add New Employee
+        </button>
       </section>
       <section className={Style.tableContainer}>
         <table cellPadding={"53rem"}>
@@ -70,7 +77,7 @@ const Table = () => {
                     />
                     <MdEditSquare
                       className={Style.editLogo}
-                      onClick={() => showingDataEdit(id, storedData)}
+                      onClick={() => showingDataEdit()}
                     />
                   </td>
                 </tr>
@@ -84,11 +91,17 @@ const Table = () => {
           Download as Excel <RiDownload2Fill className={Style.downloadLogo} />
         </button>
       </section>
-      <EditEmployee
+      {/* <EditEmployee
         isDialogOpen={isDialogOpen}
         setISDialogOpen={setISDialogOpen}
         editData={editData}
         storedData={storedData}
+      /> */}
+
+      <CreateEmployee
+        isDialogOpen={isDialogOpen}
+        setISDialogOpen={setISDialogOpen}
+        createEmpData={createEmpData}
       />
     </main>
   );
