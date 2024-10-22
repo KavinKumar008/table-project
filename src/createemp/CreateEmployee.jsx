@@ -2,17 +2,27 @@ import React, { useState } from "react";
 import styles from "./Style.module.css";
 import * as Dialog from "@radix-ui/react-dialog";
 
-const CreateEmployee = ({ isDialogOpen, setISDialogOpen, createEmpData }) => {
+const CreateEmployee = ({
+  isCreateDialogOpen,
+  setIsCreateDialogOpen,
+  createEmpData,
+  storedData,
+}) => {
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [city, setCity] = useState("");
+  let newId = storedData.length;
 
   function empTableToOpen() {
-    setISDialogOpen();
-    createEmpData(fname, lname, city);
+    setIsCreateDialogOpen(false);
+    createEmpData(fname, lname, city, newId + 1);
+    setFname("");
+    setLname("");
+    setCity("");
   }
+
   return (
-    <Dialog.Root open={isDialogOpen}>
+    <Dialog.Root open={isCreateDialogOpen}>
       <Dialog.Trigger asChild>hi</Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Content className={styles.Content}>
@@ -61,7 +71,11 @@ const CreateEmployee = ({ isDialogOpen, setISDialogOpen, createEmpData }) => {
           </section>
           <section className={styles.btnsContainer}>
             <Dialog.Close>
-              <span type="button" className={styles.leftBtn}>
+              <span
+                type="button"
+                className={styles.leftBtn}
+                onClick={() => setIsCreateDialogOpen(false)}
+              >
                 Cancel
               </span>
             </Dialog.Close>
@@ -70,7 +84,7 @@ const CreateEmployee = ({ isDialogOpen, setISDialogOpen, createEmpData }) => {
               className={styles.rightBtn}
               onClick={() => empTableToOpen()}
             >
-              Edit
+              Add
             </button>
           </section>
         </Dialog.Content>

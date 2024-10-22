@@ -29,6 +29,10 @@ table,th,td{
     flex-direction: column;
 }
 
+.tableContainer::-webkit-scrollbar{
+    display: none;
+}
+
 .tableHeading{
    font-size: 28px;
    color: var(--color);

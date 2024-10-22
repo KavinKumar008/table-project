@@ -9,30 +9,42 @@ import CreateEmployee from "../createemp/CreateEmployee";
 
 const Table = () => {
   const [storedData, setStoredData] = useState(jsonData);
-  const [isDialogOpen, setISDialogOpen] = useState(false);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editableData, setEditableData] = useState();
+  const [searchTerm, setSearchTerm] = useState("");
 
   function deleteData(id) {
-    const del = storedData.filter((itm) => itm.id !== id); // illana item.id-- kuduthalum work aagum for changing the serial no
+    const del = storedData.filter((itm) => itm.id-- !== id); // illana item.id-- kuduthalum work aagum for changing the serial no
     setStoredData(del);
   }
 
-  const editData = (id, fname, lname, city) => {
-    setStoredData((prevValue) => {
-      const updatedValue = [...prevValue];
-      updatedValue[id] = [{ fname, lname, city }];
-      return updatedValue;
-    });
-  };
-
-  function showingDataEdit() {
-    setISDialogOpen(true);
+  function showingDataEdit(item) {
+    setIsEditDialogOpen(true);
+    setEditableData(item);
   }
 
-  function createEmpData(fname, lname, city) {
-    setStoredData((prev) => [...prev, { fname, lname, city }]);
+  function createEmpData(fname, lname, city, id) {
+    setStoredData((prev) => [
+      ...prev,
+      { id, first_name: fname, last_name: lname, city },
+    ]);
   }
+
+  const filteredData = storedData.filter((item) => {
+    item.first_name
+      .toLocaleLowerCase()
+      .includes(searchTerm.toLocaleLowerCase()) ||
+      item.last_name
+        .toLocaleLowerCase()
+        .includes(searchTerm.toLocaleLowerCase()) ||
+      item.last_name
+        .toLocaleLowerCase()
+        .includes(searchTerm.toLocaleLowerCase());
+  });
 
   console.log(storedData);
+  console.log(filteredData);
   return (
     <main className={Style.mainContainer}>
       <section className={Style.headingContainer}>
@@ -45,9 +57,14 @@ const Table = () => {
             name="words"
             placeholder="Enter keywords"
             className={Style.inputField}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </label>
-        <button className={Style.addBtn} onClick={() => setISDialogOpen(true)}>
+        <button
+          className={Style.addBtn}
+          onClick={() => setIsCreateDialogOpen(true)}
+        >
           Add New Employee
         </button>
       </section>
@@ -62,22 +79,22 @@ const Table = () => {
               <th>Action</th>
             </tr>
           </thead>
-          {storedData.map(({ id, first_name, last_name, city }, index) => {
+          {filteredData.map((item, index) => {
             return (
               <tbody key={index}>
                 <tr className={Style.mapDatas}>
-                  <td>{index + 1}</td>
-                  <td>{first_name}</td>
-                  <td>{last_name}</td>
-                  <td>{city}</td>
+                  <td>{item.id}</td>
+                  <td>{item.first_name}</td>
+                  <td>{item.last_name}</td>
+                  <td>{item.city}</td>
                   <td className={Style.logos}>
                     <RiDeleteBin6Fill
                       className={Style.deleteLogo}
-                      onClick={() => deleteData(id)}
+                      onClick={() => deleteData(item.id)}
                     />
                     <MdEditSquare
                       className={Style.editLogo}
-                      onClick={() => showingDataEdit()}
+                      onClick={() => showingDataEdit(item)}
                     />
                   </td>
                 </tr>
@@ -91,17 +108,22 @@ const Table = () => {
           Download as Excel <RiDownload2Fill className={Style.downloadLogo} />
         </button>
       </section>
-      {/* <EditEmployee
-        isDialogOpen={isDialogOpen}
-        setISDialogOpen={setISDialogOpen}
-        editData={editData}
-        storedData={storedData}
-      /> */}
+      {editableData && (
+        <EditEmployee
+          isEditDialogOpen={isEditDialogOpen}
+          setIsEditDialogOpen={setIsEditDialogOpen}
+          storedData={storedData}
+          setStoredData={setStoredData}
+          editableData={editableData}
+          setEditableData={setEditableData}
+        />
+      )}
 
       <CreateEmployee
-        isDialogOpen={isDialogOpen}
-        setISDialogOpen={setISDialogOpen}
+        isCreateDialogOpen={isCreateDialogOpen}
+        setIsCreateDialogOpen={setIsCreateDialogOpen}
         createEmpData={createEmpData}
+        storedData={storedData}
       />
     </main>
   );
