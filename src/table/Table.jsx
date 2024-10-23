@@ -31,19 +31,18 @@ const Table = () => {
     ]);
   }
 
-  const filteredData = storedData.filter((item) => {
-    item.first_name
-      .toLocaleLowerCase()
-      .includes(searchTerm.toLocaleLowerCase()) ||
-      item.last_name
+  const filteredData = storedData.filter(
+    (item) =>
+      item.first_name
         .toLocaleLowerCase()
         .includes(searchTerm.toLocaleLowerCase()) ||
       item.last_name
         .toLocaleLowerCase()
-        .includes(searchTerm.toLocaleLowerCase());
-  });
+        .includes(searchTerm.toLocaleLowerCase()) ||
+      item.city.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
+  );
 
-  console.log(storedData);
+  // console.log(storedData);
   console.log(filteredData);
   return (
     <main className={Style.mainContainer}>
@@ -103,11 +102,12 @@ const Table = () => {
           })}
         </table>
       </section>
-      <section className={Style.downloadContainer}>
+
+      {/* <section className={Style.downloadContainer}>
         <button className={Style.downloadBtn}>
           Download as Excel <RiDownload2Fill className={Style.downloadLogo} />
         </button>
-      </section>
+      </section> */}
       {editableData && (
         <EditEmployee
           isEditDialogOpen={isEditDialogOpen}
@@ -118,7 +118,6 @@ const Table = () => {
           setEditableData={setEditableData}
         />
       )}
-
       <CreateEmployee
         isCreateDialogOpen={isCreateDialogOpen}
         setIsCreateDialogOpen={setIsCreateDialogOpen}
